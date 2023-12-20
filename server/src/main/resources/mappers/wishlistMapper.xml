@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.mall.model.dao.WishlistDao">
+	
+	<resultMap id="wishlistMap" type="com.sound.mall.model.dto.Wishlist">
+        <result column="wishlist_id" property="wishlistId"/>
+        <result column="user_id" property="userId"/>
+        <result column="item_id" property="itemId"/>
+    </resultMap>
+	
+	<select id="getWishlist" resultMap="wishlistMap">
+        SELECT wishlist_id, user_id, item_id FROM wishlist 
+        WHERE user_id = #{userId} AND item_id = #{itemId}
+    </select>
+	
+	<insert id="createWishlist" parameterType="com.sound.mall.model.dto.Wishlist">
+		INSERT INTO wishlist (user_id, item_id)
+		VALUES (#{userId}, #{itemId}) 
+	</insert>
+	
+	<delete id="deleteWishlist" parameterType="com.sound.mall.model.dto.Wishlist">
+        DELETE FROM wishlist
+        WHERE user_id = #{userId} AND item_id = #{itemId}
+    </delete>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.sound.mall.model.dao.UserDao">
+ 
+    <insert id="insertUser" parameterType="com.sound.mall.model.dto.User">
+        INSERT INTO user (user_id, password, name, nickName, email, birthday, number, img)
+        VALUES (#{userId}, #{password}, #{name}, #{nickName}, #{email}, #{birthday}, #{number}, #{img})
+    </insert>
+ 	
+ 	<update id="deactivateUser" parameterType="map">
+        UPDATE user
+        SET activate = false
+        WHERE user_id = #{userId} AND password = #{password}
+    </update>
+    
+    <delete id="deleteUser" parameterType="map">
+        DELETE FROM user
+        WHERE user_id = #{userId} AND password = #{password}
+    </delete>
+ 	
+    <select id="idValidCheck" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM user WHERE user_id = #{userId}
+    </select>
+    
+    <select id="selectOne" parameterType="map" resultType="com.sound.mall.model.dto.User">
+        SELECT * FROM user WHERE user_id = #{userId} AND password = #{password}
+    </select>
+
+ 	<update id="updateUser" parameterType="com.sound.mall.model.dto.User">
+        UPDATE user
+        SET name = #{name},
+            nickName = #{nickName},
+            email = #{email},
+            number = #{number},
+            img = #{img},
+            activate = #{activate}
+        WHERE user_id = #{userId}
+    </update>
+    
+    <select id="getAllUser" resultType="com.sound.mall.model.dto.User">
+        SELECT * FROM user
+    </select>
+ </mapper>

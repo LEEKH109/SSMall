@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.mall.model.dao.CartDao">
+
+
+	  <select id="selectAll" parameterType="map" resultType="Cart">    
+         SELECT 
+            cart.cart_id AS "cartId", 
+            cart.user_id AS "userId", 
+            cart.item_id AS "itemId", 
+            cart.cnt, 
+            cart.checked,
+            item.name AS "itemName", 
+            item.explain AS "itemExplain", 
+            item.detail AS "itemDetail",
+            item.category AS "itemCategory", 
+            item.price AS "itemPrice", 
+            item.stock AS "itemStock", 
+            item.img AS "itemImg"                        
+        FROM 
+            cart 
+        JOIN 
+            item ON cart.item_id = item.item_id   
+        WHERE 
+            cart.user_id = #{userId} 
+            
+    </select>
+    
+   <select id="selectChecked" parameterType="map" resultType="Cart">    
+    SELECT 
+    	cart.cart_id AS "cartId", 
+            cart.user_id AS "userId", 
+            cart.item_id AS "itemId", 
+            cart.cnt, 
+            cart.checked,
+            item.name AS "itemName", 
+            item.explain AS "itemExplain", 
+            item.detail AS "itemDetail",
+            item.category AS "itemCategory", 
+            item.price AS "itemPrice", 
+            item.stock AS "itemStock", 
+            item.img AS "itemImg"                        
+        FROM 
+            cart 
+        JOIN 
+            item ON cart.item_id = item.item_id   
+        WHERE 
+            cart.user_id = #{userId} and cart.checked = true
+    </select>
+
+	<insert id="insert" parameterType="map">
+		INSERT INTO cart (user_id, item_id, cnt)
+		VALUES ( #{userId}, #{itemId}, #{cnt})
+	</insert>
+	
+	<delete id="delete" parameterType="map">
+    Delete FROM cart
+    WHERE user_id = #{userId}   	
+    and item_id = #{itemId}
+	</delete>
+	
+	<delete id="deleteChecked" parameterType="map">
+    Delete FROM cart
+    WHERE user_id = ${userId} and checked = true
+	</delete>
+	
+	
+	<update id="update" parameterType="map">
+		UPDATE cart
+		SET cnt = #{cnt}
+		WHERE cart_id = #{cartId}
+	</update>
+	
+	<update id="updateChecked" parameterType="map">
+		UPDATE cart
+		SET checked = !checked
+		    	
+	</update>
+	
+	<select id="selectOne" parameterType="map" resultType="Cart">
+		SELECT cart_id AS "cartId", user_id AS "userId", cart.item_id AS "itemId", cnt
+		FROM cart
+		WHERE user_id = #{userId} and item_id = #{itemId}
+	</select>
+	
+	
+</mapper>

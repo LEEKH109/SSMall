@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.mall.model.dao.ReviewDao">
+
+	<resultMap id="reviewMap" type="com.sound.mall.model.dto.Review">
+        <result column="review_id" property="reviewId"/>
+        <result column="item_id" property="itemId"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="explain" property="explain"/>
+        <result column="rate" property="rate"/>
+    </resultMap>
+
+	 <insert id="createReview" parameterType="com.sound.mall.model.dto.Review">
+        INSERT INTO review (item_id, user_id, name, `explain`, rate)
+        VALUES (#{itemId}, #{userId}, #{name}, #{explain}, #{rate})
+    </insert>
+    
+    <select id="selectReview" resultMap="reviewMap">
+        SELECT * FROM review WHERE user_id = #{userId} AND item_id = #{itemId}
+    </select>
+    
+    <select id="selectAllReview" resultType="com.sound.mall.model.dto.Review">
+        SELECT * FROM review WHERE item_id = #{itemId}
+    </select>
+    
+    <update id="updateReview" parameterType="com.sound.mall.model.dto.Review">
+    	UPDATE review 
+    	SET name = #{name},
+    		`explain` = #{explain},
+    		rate = #{rate}
+    	WHERE user_id = #{userId} AND item_id = #{itemId}
+    </update>
+    
+      <delete id="deleteReview" parameterType="map">
+        DELETE FROM review
+        WHERE user_id = #{userId} AND item_id = #{itmeId}
+    </delete>
+    
+</mapper>
